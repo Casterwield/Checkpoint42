@@ -8,6 +8,8 @@
 
 import React from 'react';
 import Map from './components/Map';
+import {CoordProvider} from './components/Provider.js';
+import PinDividual from './components/PinDex.js';
 import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -62,32 +64,35 @@ const App: () => Node = () => {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <Map />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={
-          (backgroundStyle,
-          {
-            height: height * 0.25,
-            width: width,
-          })
-        }>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Hello World">Lets map some stuffs!</Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <CoordProvider>
+      <SafeAreaView style={backgroundStyle}>
+        <StatusBar />
+        <Map />
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={
+            (backgroundStyle,
+            {
+              height: height * 0.42,
+              width: width,
+            })
+          }>
+          <View
+            style={{
+              backgroundColor: isDarkMode ? Colors.black : Colors.white,
+            }}>
+            {/* <Section title="Hello World">Lets map some stuffs!</Section>
+            <Section title="See Your Changes">
+              <ReloadInstructions />
+            </Section>
+            <Section title="Debug">
+              <DebugInstructions />
+            </Section> */}
+            <PinDividual />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </CoordProvider>
   );
 };
 

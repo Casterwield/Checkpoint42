@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useRef} from 'react';
 import MapView, {Marker, Polyline} from 'react-native-maps';
+import {useNavigation} from '@react-navigation/native';
 import {
   SafeAreaView,
   StyleSheet,
@@ -14,6 +15,7 @@ import {CoordContext} from './Provider.js';
 let {height, width} = Dimensions.get('window');
 
 const Map: () => Node = () => {
+  const navigation = useNavigation();
   const Coords = useContext(CoordContext);
   const mapRef = useRef(null);
   const lineCoords = [...Coords.pins];
@@ -79,7 +81,11 @@ const Map: () => Node = () => {
             <Button onPress={PinPoint} title="Save Route" color="white" />
           </View>
           <View style={styles.topButtons}>
-            <Button onPress={PinPoint} title="View Routes" color="white" />
+            <Button
+              onPress={navigation.navigate('Routes')}
+              title="View Routes"
+              color="white"
+            />
           </View>
         </SafeAreaView>
         <SafeAreaView style={styles.bottomButtonContainer}>

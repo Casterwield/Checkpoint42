@@ -1,27 +1,14 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import Map from './components/Map';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+//import MapMain from './components/MapMain';
+import Routes from './components/Routes';
 import {CoordProvider} from './components/Provider.js';
-import PinDividual from './components/PinDex.js';
-import StatBar from './components/StatBar.js';
 import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  Dimensions,
-  KeyboardAvoidingView,
-} from 'react-native';
-import DismissKeyboardView from './components/DismissKeyboardView.js';
+import {SafeAreaView, StatusBar} from 'react-native';
+import AppT from './AppT.js';
 
-let {height, width} = Dimensions.get('window');
+const Stack = createNativeStackNavigator();
 
 const App: () => Node = () => {
   const backgroundStyle = {
@@ -33,25 +20,20 @@ const App: () => Node = () => {
     <SafeAreaView style={backgroundStyle}>
       <CoordProvider>
         <StatusBar barStyle="light-content" />
-        <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={42}>
-          <DismissKeyboardView>
-            <Map />
-            <StatBar />
-          </DismissKeyboardView>
-        </KeyboardAvoidingView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={
-            (backgroundStyle,
-            {
-              height: height * 0.36,
-              width: width,
-            })
-          }>
-          <SafeAreaView style={backgroundStyle}>
-            <PinDividual />
-          </SafeAreaView>
-        </ScrollView>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Home"
+              component={AppT}
+              navigation={navigation}
+            />
+            <Stack.Screen
+              name="Routes"
+              component={Routes}
+              navigation={navigation}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
       </CoordProvider>
     </SafeAreaView>
   );

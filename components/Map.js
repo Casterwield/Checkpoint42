@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useRef} from 'react';
 import MapView, {Marker, Polyline} from 'react-native-maps';
+import Geolocation from '@react-native-community/geolocation';
 import {
   SafeAreaView,
   StyleSheet,
@@ -18,12 +19,20 @@ const Map: () => Node = () => {
   const mapRef = useRef(null);
   const lineCoords = [...Coords.pins];
   const dashPat = [4, 2];
-  const home = {
-    latitude: 42.8057,
-    longitude: -73.8969,
-    latitudeDelta: 0.0421,
-    longitudeDelta: 0.0421,
-  };
+  // var home = {
+  //   latitude: 42.822712,
+  //   longitude: 0,
+  //   latitudeDelta: 0.0421,
+  //   longitudeDelta: 0.0421,
+  // };
+  Geolocation.getCurrentPosition(info => {
+    Coords.setGPSLoc({
+      latitude: info.coords.latitude,
+      longitude: info.coords.longitude,
+      latitudeDelta: 0.0421,
+      longitudeDelta: 0.0421,
+    });
+  });
   const PinPoint = () => {
     Coords.setPins(prevPins => {
       prevPins.push(Coords.currReg);
@@ -32,7 +41,7 @@ const Map: () => Node = () => {
     });
   };
   const goToHome = e => {
-    mapRef.current.animateToRegion(home, 1000);
+    mapRef.current.animateToRegion(Coords.gpsLoc, 1000);
   };
   const ClearPins = () => {
     Coords.setPins([]);
@@ -43,7 +52,9 @@ const Map: () => Node = () => {
         <MapView
           ref={mapRef}
           style={styles.map}
-          onRegionChange={region => {
+          tintColor="teal"
+          compassOffset={{x: 0, y: -42}}
+          onRegionChangeComplete={region => {
             let pinLoc = {
               latitude: Number(region.latitude.toFixed(4)),
               longitude: Number(region.longitude.toFixed(4)),
@@ -51,11 +62,13 @@ const Map: () => Node = () => {
             Coords.setReg(pinLoc);
           }}
           initialRegion={{
-            latitude: 42.8057,
-            longitude: -73.8969,
-            latitudeDelta: 0.0421,
-            longitudeDelta: 0.0421,
-          }}>
+            latitude: 0,
+            longitude: 0,
+            latitudeDelta: 0.1,
+            longitudeDelta: 0.1,
+          }}
+          onMapReady={goToHome}
+          showsUserLocation={true}>
           {Coords.pins.map((marker, index) => {
             return (
               <Marker

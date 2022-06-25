@@ -7,7 +7,7 @@ const CoordProvider = props => {
   const [currReg, setReg] = useState({latitude: 42.8057, longitude: -73.8969});
   const [goal, setGoal] = useState(0);
   const [distance, setDistance] = useState('');
-
+  const [gpsLoc, setGPSLoc] = useState({});
   return (
     <CoordContext.Provider
       value={{
@@ -19,6 +19,8 @@ const CoordProvider = props => {
         setGoal,
         distance,
         setDistance,
+        gpsLoc,
+        setGPSLoc,
       }}>
       {props.children}
     </CoordContext.Provider>

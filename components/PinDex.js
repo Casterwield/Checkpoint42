@@ -8,7 +8,6 @@ import convertTime from './ConvertTime.js';
 const PinDividual = ({title}): Node => {
   const Coords = useContext(CoordContext);
   const pinCoords = [...Coords.pins];
-
   return (
     <SafeAreaView>
       <View>
@@ -25,32 +24,39 @@ const PinDividual = ({title}): Node => {
               {index === 0 ? null : (
                 <View style={styles.rowStyle}>
                   <Text style={[styles.sectionDescription]}>
-                    {convertDistance(
-                      getDistance(array[index - 1], marker),
-                      'mi',
-                    ).toFixed(2) + 'mi'}
+                    Distance
+                    {'\n ' +
+                      convertDistance(
+                        getDistance(array[index - 1], marker),
+                        'mi',
+                      ).toFixed(2) +
+                      'mi'}
                   </Text>
                   <Text style={[styles.sectionDescription]}>
-                    {convertTime(
-                      (
-                        Coords.goal *
-                        convertDistance(
-                          getDistance(array[index - 1], marker) /
-                            getPathLength(pinCoords),
-                        )
-                      ).toFixed(2),
-                    ) + ' CheckPoint'}
+                    Checkpoint
+                    {'\n   ' +
+                      convertTime(
+                        (
+                          Coords.goal *
+                          convertDistance(
+                            getDistance(array[index - 1], marker) /
+                              getPathLength(pinCoords),
+                          )
+                        ).toFixed(2),
+                      )}
                   </Text>
                   <Text style={[styles.sectionDescription]}>
-                    {convertTime(
-                      (
-                        Coords.goal *
-                        convertDistance(
-                          getPathLength(array.slice(0, index + 1)) /
-                            getPathLength(pinCoords),
-                        )
-                      ).toFixed(2),
-                    ) + ' Total'}
+                    Course
+                    {'\n' +
+                      convertTime(
+                        (
+                          Coords.goal *
+                          convertDistance(
+                            getPathLength(array.slice(0, index + 1)) /
+                              getPathLength(pinCoords),
+                          )
+                        ).toFixed(2),
+                      )}
                   </Text>
                 </View>
               )}
@@ -76,7 +82,7 @@ const styles = StyleSheet.create({
   },
   sectionDescription: {
     paddingBottom: 4,
-    paddingHorizontal: 13,
+    paddingHorizontal: 8,
     marginTop: 8,
     fontSize: 18,
     fontWeight: '400',

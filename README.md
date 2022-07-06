@@ -2,6 +2,15 @@
 
 A completely free iOS application that allows a user to quickly plan, save, and execute running/biking routes with checkpoints and live audio feedback
 
+## Working on this project
+
+This project has many features still to add! The project trello link is right here:
+[Trello Page](https://trello.com/b/bAaQAcBq/checkpoint-42)
+
+Grab a ticket, move it to the work que and assign yourself to it. Comment on the ticket as you make progress. Once complete move the ticket to "Code Review", add me to the ticket and comment that it is ready for review. I will review yor code, and either request additional changes or merge into the main code!
+
+The trello board has a resources section with links to all libraries used, if yo add a library please add a link to that library in the resources section!
+
 ## Setting up dev enviornment
 
 run the following in the terminal
@@ -45,7 +54,7 @@ navigate to iOS
 pod install
 ```
 
-### run the following 2 commands to init simulator
+### Run the following 2 commands to init simulator
 
 ```sh
 npm react-native start

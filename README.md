@@ -16,12 +16,13 @@ sudo arch -x86_64 gem install ffi
 
 npx react-native start
 ```
-//inside ios folder
+Inside ios folder
 ```sh
 arch -x86_64 pod install
+
 npx react-native run-ios
 ```
-//exit processes and close terminal windows
+Exit processes and close terminal windows
 
 
 ## Setting up local workspace

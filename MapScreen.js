@@ -23,7 +23,7 @@ import DismissKeyboardView from './components/DismissKeyboardView.js';
 
 let {height, width} = Dimensions.get('window');
 
-const AppT: () => Node = () => {
+const AppT: () => Node = ({navigation}) => {
   const backgroundStyle = {
     backgroundColor: 'black',
     flex: 1,
@@ -35,7 +35,7 @@ const AppT: () => Node = () => {
         <StatusBar barStyle="light-content" /> */}
       <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={42}>
         <DismissKeyboardView>
-          <Map />
+          <Map navigation={navigation} />
           <StatBar />
         </DismissKeyboardView>
       </KeyboardAvoidingView>

@@ -6,8 +6,8 @@ import {CoordContext} from './Provider.js';
 import convertTime from './ConvertTime.js';
 
 const PinDividual = ({title}): Node => {
-  const Coords = useContext(CoordContext);
-  const pinCoords = [...Coords.pins];
+  const {pins, goal} = useContext(CoordContext);
+  const pinCoords = [...pins];
 
   return (
     <SafeAreaView>
@@ -33,7 +33,7 @@ const PinDividual = ({title}): Node => {
                   <Text style={[styles.sectionDescription]}>
                     {convertTime(
                       (
-                        Coords.goal *
+                        goal *
                         convertDistance(
                           getDistance(array[index - 1], marker) /
                             getPathLength(pinCoords),
@@ -44,7 +44,7 @@ const PinDividual = ({title}): Node => {
                   <Text style={[styles.sectionDescription]}>
                     {convertTime(
                       (
-                        Coords.goal *
+                        goal *
                         convertDistance(
                           getPathLength(array.slice(0, index + 1)) /
                             getPathLength(pinCoords),

@@ -13,8 +13,8 @@ import {CoordContext} from './Provider.js';
 let {height, width} = Dimensions.get('window');
 
 const StatBar = (): Node => {
-  const Coords = useContext(CoordContext);
-  const pinCoords = [...Coords.pins];
+  const {pins, distance, setDistance, setGoal} = useContext(CoordContext);
+  const pinCoords = [...pins];
 
   return (
     <SafeAreaView style={styles.sectionContainer}>
@@ -25,17 +25,16 @@ const StatBar = (): Node => {
           keyboardType="number-pad"
           placeholder="(in minutes)"
           placeholderTextColor="#32cd32"
-          onChangeText={text => Coords.setDistance(text)}
           maxLength={4}
-          onEndEditing={() => {
-            Coords.setGoal(Number(Coords.distance));
+          onEndEditing={e => {
+            setGoal(Number(e.nativeEvent.text));
           }}
         />
       </View>
       <View style={styles.rowText}>
         <Text style={styles.statText}>Route Distance:</Text>
         <Text style={[styles.statText, {marginLeft: 42}]}>
-          {!pinCoords.length
+          {!pins.length
             ? '0.00mi'
             : convertDistance(getPathLength(pinCoords), 'mi').toFixed(2) +
               ' mi'}

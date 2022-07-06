@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useRef} from 'react';
+import React, {useContext, useRef, useEffect} from 'react';
 import MapView, {Marker, Polyline} from 'react-native-maps';
-import {useNavigation} from '@react-navigation/native';
 import {
   SafeAreaView,
   StyleSheet,
@@ -11,59 +10,81 @@ import {
   Text,
 } from 'react-native';
 import {CoordContext} from './Provider.js';
+import RouteName from './RouteName.js';
+import Geolocation from '@react-native-community/geolocation';
 
 let {height, width} = Dimensions.get('window');
 
-const Map: () => Node = () => {
-  const navigation = useNavigation();
-  const Coords = useContext(CoordContext);
+const Map: () => Node = ({navigation}) => {
+  const {
+    setPins,
+    setReg,
+    pins,
+    currReg,
+    loc,
+    setLoc,
+    modalVisible,
+    setModalVisible,
+  } = useContext(CoordContext);
   const mapRef = useRef(null);
-  const lineCoords = [...Coords.pins];
+  const lineCoords = [...pins];
   const dashPat = [4, 2];
-  const home = {
-    latitude: 42.8057,
-    longitude: -73.8969,
-    latitudeDelta: 0.0421,
-    longitudeDelta: 0.0421,
-  };
+  useEffect(() => {
+    let tempLoc = {
+      latitudeDelta: 0.00842,
+      longitudeDelta: 0.00842,
+    };
+    Geolocation.getCurrentPosition(pos => {
+      tempLoc.latitude = pos.coords.latitude;
+      tempLoc.longitude = pos.coords.longitude;
+      setLoc(tempLoc);
+    });
+    goToHome();
+  }, []);
   const PinPoint = () => {
-    Coords.setPins(prevPins => {
-      prevPins.push(Coords.currReg);
+    setPins(prevPins => {
+      prevPins.push(currReg);
       var temPins = [...prevPins];
       return temPins;
     });
   };
   const goToHome = e => {
-    mapRef.current.animateToRegion(home, 1000);
+    mapRef.current.animateToRegion(loc, 1000);
   };
   const ClearPins = () => {
-    Coords.setPins([]);
+    setPins([]);
   };
+  const setTarget = pinLoc => {
+    setReg(pinLoc);
+  };
+  const mapReady = () => {
+    goToHome();
+  };
+
   return (
     <SafeAreaView>
       <View style={styles.mapContainer}>
         <MapView
           ref={mapRef}
           style={styles.map}
+          onMapReady={mapReady}
+          showsUserLocation
           onRegionChange={region => {
             let pinLoc = {
               latitude: Number(region.latitude.toFixed(4)),
               longitude: Number(region.longitude.toFixed(4)),
             };
-            Coords.setReg(pinLoc);
+            setTarget(pinLoc);
           }}
-          initialRegion={{
-            latitude: 42.8057,
-            longitude: -73.8969,
-            latitudeDelta: 0.0421,
-            longitudeDelta: 0.0421,
-          }}>
-          {Coords.pins.map((marker, index) => {
+          initialRegion={loc}>
+          {pins.map((marker, index) => {
             return (
               <Marker
                 key={'Marker ' + index}
                 coordinate={marker}
                 title={'Marker ' + index}
+                isCheckPoint={false}
+                onPress={e => console.log(e.nativeEvent)}
               />
             );
           })}
@@ -78,11 +99,18 @@ const Map: () => Node = () => {
         </View>
         <SafeAreaView style={styles.topButtonContainer}>
           <View style={styles.topButtons}>
-            <Button onPress={PinPoint} title="Save Route" color="white" />
+            <Button
+              onPress={() => setModalVisible(!modalVisible)}
+              title="Save Route"
+              color="white"
+            />
+          </View>
+          <View>
+            <RouteName />
           </View>
           <View style={styles.topButtons}>
             <Button
-              onPress={navigation.navigate('Routes')}
+              onPress={() => navigation.navigate('Routes')}
               title="View Routes"
               color="white"
             />

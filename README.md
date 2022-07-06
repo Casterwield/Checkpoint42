@@ -37,16 +37,17 @@ navigate to project folder
 npm install
 ```
 
-### Always pod install after npm installing
+Always pod install after npm installing
 
-//navigate to iOS
+navigate to iOS
 
 ```sh
 pod install
 ```
 
 ### run the following 2 commands to init simulator
-
+```sh
 npm react-native start
 
 npx react-native run-ios
+```

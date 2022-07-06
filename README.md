@@ -3,9 +3,9 @@
 A completely free iOS application that allows a user to quickly plan, save, and execute running/biking routes with checkpoints and live audio feedback
 
 ## Setting up dev enviornment
-```sh
-run the following in the terminal
 
+run the following in the terminal
+```sh
 brew install node
 
 brew install watchman
@@ -15,11 +15,10 @@ brew install cocoapods
 sudo arch -x86_64 gem install ffi
 
 npx react-native start
-
+```
 //inside ios folder
-
+```sh
 arch -x86_64 pod install
-
 npx react-native run-ios
 ```
 //exit processes and close terminal windows

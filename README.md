@@ -5,7 +5,7 @@ A completely free iOS application that allows a user to quickly plan, save, and 
 ## Working on this project
 
 This project has many features still to add! The project trello link is right here:
-[Trello Page](https://trello.com/b/bAaQAcBq/checkpoint-42)
+[Checkpoint 42 Trello Page](https://trello.com/b/bAaQAcBq/checkpoint-42)
 
 Grab a ticket, move it to the work que and assign yourself to it. Comment on the ticket as you make progress. Once complete move the ticket to "Code Review", add me to the ticket and comment that it is ready for review. I will review yor code, and either request additional changes or merge into the main code!
 

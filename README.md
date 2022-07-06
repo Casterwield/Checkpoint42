@@ -31,13 +31,13 @@ fork and clone project to your own machine
 
 navigate to project folder
 
-##Install dependancies
+###Install dependancies
 
 ```sh
 npm install
 ```
 
-## Always pod install after npm installing
+### Always pod install after npm installing
 
 //navigate to iOS
 
@@ -45,7 +45,7 @@ npm install
 pod install
 ```
 
-## run the following 2 commands to init simulator
+### run the following 2 commands to init simulator
 
 npm react-native start
 

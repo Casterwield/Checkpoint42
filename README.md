@@ -1,17 +1,16 @@
 # Checkpoint42
 
-A completely free iOS application that allows a user to quickly plan, save, and execute
-running/biking routes with checkpoints and live audio feedback
+A completely free iOS application that allows a user to quickly plan, save, and execute running/biking routes with checkpoints and live audio feedback
 
 ## Setting up dev enviornment
 
 run the following in the terminal
 
 brew install node
-brew install watchman
-brew install cocoapods
-sudo arch -x86_64 gem install ffi
-npx react-native start
+\n brew install watchman
+\n brew install cocoapods
+\n sudo arch -x86_64 gem install ffi
+\n npx react-native start
 
 //inside ios folder
 arch -x86_64 pod install

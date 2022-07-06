@@ -31,7 +31,7 @@ fork and clone project to your own machine
 
 navigate to project folder
 
-###Install dependancies
+### Install dependancies
 
 ```sh
 npm install
@@ -46,6 +46,7 @@ pod install
 ```
 
 ### run the following 2 commands to init simulator
+
 ```sh
 npm react-native start
 

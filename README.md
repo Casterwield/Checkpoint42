@@ -3,7 +3,7 @@
 A completely free iOS application that allows a user to quickly plan, save, and execute running/biking routes with checkpoints and live audio feedback
 
 ## Setting up dev enviornment
-
+```sh
 run the following in the terminal
 
 brew install node
@@ -21,7 +21,7 @@ npx react-native start
 arch -x86_64 pod install
 
 npx react-native run-ios
-
+```
 //exit processes and close terminal windows
 
 

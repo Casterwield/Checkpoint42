@@ -1,5 +1,6 @@
 # Checkpoint42
-## A completely free iOS application that allows a user to quickly plan, save, and execute
+
+A completely free iOS application that allows a user to quickly plan, save, and execute
 running/biking routes with checkpoints and live audio feedback
 
 ## Setting up dev enviornment

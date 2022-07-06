@@ -1,4 +1,5 @@
-/* eslint-disable react-native/no-inline-styles */
+/* View containing pins, with distance and times added as array is iterated over */
+
 import React, {useContext} from 'react';
 import {getDistance, convertDistance, getPathLength} from 'geolib';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';

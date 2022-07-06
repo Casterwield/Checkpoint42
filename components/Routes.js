@@ -1,3 +1,5 @@
+/* page that allows viewing, deleting, and loading of routes */
+
 import React, {useContext, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {

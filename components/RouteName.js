@@ -1,3 +1,5 @@
+/* Modal that allows the saving and naming of a route */
+
 import React, {useContext} from 'react';
 import {CoordContext} from './Provider.js';
 import {

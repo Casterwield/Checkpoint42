@@ -1,3 +1,5 @@
+/* component that goes over the whole mapscreen to allow for clicking anywhere off of the keyboard to dismiss it*/
+
 import React from 'react';
 import {TouchableWithoutFeedback, Keyboard, View} from 'react-native';
 

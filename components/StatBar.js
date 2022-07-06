@@ -1,4 +1,5 @@
-/* eslint-disable react-native/no-inline-styles */
+/* component that allows input of goal distance */
+
 import React, {useContext} from 'react';
 import {convertDistance, getPathLength} from 'geolib';
 import {

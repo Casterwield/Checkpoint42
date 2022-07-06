@@ -1,4 +1,4 @@
-import React from 'react';
+/* function component to convert time from minutes to hours minutes seconds */
 
 const convertTime = minutes => {
   var sign = minutes < 0 ? '-' : '';

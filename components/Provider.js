@@ -1,3 +1,5 @@
+/* single source of truth for all state */
+
 import React, {useState} from 'react';
 
 const CoordContext = React.createContext();

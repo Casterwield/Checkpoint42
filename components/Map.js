@@ -1,4 +1,5 @@
-/* eslint-disable react-native/no-inline-styles */
+/* actual map component */
+
 import React, {useContext, useRef, useEffect} from 'react';
 import MapView, {Marker, Polyline} from 'react-native-maps';
 import {

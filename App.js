@@ -1,3 +1,5 @@
+/* App main */
+
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -6,7 +8,7 @@ import Routes from './components/Routes';
 import {CoordProvider} from './components/Provider.js';
 import type {Node} from 'react';
 import {SafeAreaView, StatusBar} from 'react-native';
-import MapScreen from './MapScreen.js';
+import MapScreen from './components/MapScreen.js';
 
 const Stack = createNativeStackNavigator();
 

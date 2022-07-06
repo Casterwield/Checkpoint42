@@ -1,21 +1,15 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+Map View screen containing mapbox, input bar, and individual checkpoint view
+**/
 
 import React from 'react';
-import Map from './components/Map';
-import {CoordProvider} from './components/Provider.js';
-import PinDividual from './components/PinDex.js';
-import StatBar from './components/StatBar.js';
+import Map from './Map';
+import PinDividual from './PinDex.js';
+import StatBar from './StatBar.js';
 import type {Node} from 'react';
 import {
   SafeAreaView,
   ScrollView,
-  StatusBar,
   Dimensions,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -23,7 +17,7 @@ import DismissKeyboardView from './components/DismissKeyboardView.js';
 
 let {height, width} = Dimensions.get('window');
 
-const AppT: () => Node = ({navigation}) => {
+const MapScreen: () => Node = ({navigation}) => {
   const backgroundStyle = {
     backgroundColor: 'black',
     flex: 1,
@@ -57,4 +51,4 @@ const AppT: () => Node = ({navigation}) => {
   );
 };
 
-export default AppT;
+export default MapScreen;

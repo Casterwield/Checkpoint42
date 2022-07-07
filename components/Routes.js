@@ -32,6 +32,15 @@ const Routes: () => Node = ({navigation}) => {
     setRoutes(values);
     console.log(routes, 'routes');
   };
+  const removeValue = async key => {
+    try {
+      await AsyncStorage.removeItem(key);
+    } catch (e) {
+      // remove error
+    }
+
+    console.log('Done.');
+  };
   useEffect(() => {
     getAllKeys();
   }, []);
@@ -45,8 +54,17 @@ const Routes: () => Node = ({navigation}) => {
             <Pressable
               onPress={() => {
                 setPins(JSON.parse(r.slice(1)));
+                navigation.navigate('Home');
               }}>
               <Text>Load Route</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                const toDel = r[0];
+                removeValue(toDel);
+                getAllKeys();
+              }}>
+              <Text>Delete Route</Text>
             </Pressable>
           </View>
         );

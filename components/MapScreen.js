@@ -13,7 +13,7 @@ import {
   Dimensions,
   KeyboardAvoidingView,
 } from 'react-native';
-import DismissKeyboardView from './components/DismissKeyboardView.js';
+import DismissKeyboardView from './DismissKeyboardView.js';
 
 let {height, width} = Dimensions.get('window');
 

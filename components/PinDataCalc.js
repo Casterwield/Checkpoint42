@@ -4,8 +4,8 @@ import convertTime from './ConvertTime.js';
 const pinDataCalc = (pins, goal) => {
   var outPutArray = [];
   var chkPts = [];
-  pins.forEach((pin, index) => {
-    if (pin.isCheckPoint) {
+  pins.forEach((pin, index, array) => {
+    if (pin.isCheckPoint || index === array.length - 1) {
       chkPts.push(index);
     }
   });

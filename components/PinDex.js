@@ -1,6 +1,6 @@
 /* View containing pins, with distance and times added as array is iterated over */
 
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {CoordContext} from './Provider.js';
 
@@ -15,9 +15,13 @@ const PinDex = (): Node => {
             <SafeAreaView
               key={'Pindivual' + index}
               style={styles.sectionContainer}>
-              <Text style={[styles.sectionTitle]}>
-                {'Checkpoint ' + marker.index}
-              </Text>
+              {index === chkPts.length - 1 ? (
+                <Text style={[styles.sectionTitle]}>Endpoint</Text>
+              ) : (
+                <Text style={[styles.sectionTitle]}>
+                  {'Checkpoint ' + marker.index}
+                </Text>
+              )}
               <View style={styles.rowStyle}>
                 <Text style={[styles.sectionDescription]}>
                   {marker.dist + 'mi'}

@@ -24,6 +24,7 @@ const Map: () => Node = ({navigation}) => {
     setReg,
     pins,
     goal,
+    setGoal,
     currReg,
     loc,
     setLoc,
@@ -62,8 +63,10 @@ const Map: () => Node = ({navigation}) => {
     newPin.voiceCall = '';
     setPins(prevPins => {
       prevPins.push(currReg);
-      var temPins = [...prevPins];
-      return temPins;
+      var tempPins = [...prevPins];
+      var chkPtArray = pinDataCalc(tempPins, goal);
+      setChkPts(chkPtArray);
+      return tempPins;
     });
   };
   const goToHome = useCallback(
@@ -74,6 +77,7 @@ const Map: () => Node = ({navigation}) => {
   );
   const ClearPins = () => {
     setPins([]);
+    setGoal(0);
   };
   const setTarget = pinLoc => {
     setReg(pinLoc);
@@ -88,6 +92,32 @@ const Map: () => Node = ({navigation}) => {
       let tempPins = [...prevPins];
       tempPin.isCheckPoint = !prevPins[pointDex].isCheckPoint;
       tempPins[pointDex] = tempPin;
+      chkPtArray = pinDataCalc(tempPins, goal);
+      setChkPts(chkPtArray);
+      return tempPins;
+    });
+  };
+  const deletePin = delDex => {
+    setPins(prevPins => {
+      const newPins = [];
+      prevPins.forEach((pin, pinDex) => {
+        if (pinDex !== delDex) {
+          newPins.push(pin);
+        }
+      });
+      const deleted = pinDataCalc(newPins, goal);
+      setChkPts(deleted);
+      return newPins;
+    });
+  };
+  const dragPin = (dragDex, newCoord) => {
+    var chkPtArray;
+    setPins(prevPins => {
+      let tempPin = {...prevPins[dragDex]};
+      let tempPins = [...prevPins];
+      tempPin.latitude = newCoord.latitude;
+      tempPin.longitude = newCoord.longitude;
+      tempPins[dragDex] = tempPin;
       chkPtArray = pinDataCalc(tempPins, goal);
       setChkPts(chkPtArray);
       return tempPins;
@@ -113,27 +143,85 @@ const Map: () => Node = ({navigation}) => {
           {pins.map((marker, index) => {
             if (index === 0) {
               return (
-                <Marker key={'Marker ' + index} coordinate={marker}>
+                <Marker
+                  key={'Marker ' + index}
+                  coordinate={marker}
+                  draggable
+                  onDrag={e => {
+                    dragPin(index, e.nativeEvent.coordinate);
+                  }}
+                  pinColor="green">
                   <Callout>
-                    <Text>StartPoint</Text>
+                    <View style={styles.colStyle}>
+                      <Text style={styles.modalText}>StartPoint</Text>
+                      <Pressable
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={e => {
+                          deletePin(index);
+                        }}>
+                        <Text>Delete Pin</Text>
+                      </Pressable>
+                    </View>
+                  </Callout>
+                </Marker>
+              );
+            } else if (index === pins.length - 1) {
+              return (
+                <Marker
+                  key={'Marker ' + index}
+                  coordinate={marker}
+                  draggable
+                  onDrag={e => {
+                    dragPin(index, e.nativeEvent.coordinate);
+                  }}
+                  pinColor="red">
+                  <Callout tyle={styles.callout}>
+                    <View style={styles.colStyle}>
+                      <Text style={styles.modalText}>EndPoint</Text>
+                      <Pressable
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={e => {
+                          deletePin(index);
+                        }}>
+                        <Text>Delete Pin</Text>
+                      </Pressable>
+                    </View>
                   </Callout>
                 </Marker>
               );
             } else {
               return (
-                <Marker key={'Marker ' + index} coordinate={marker}>
-                  <Callout>
-                    <Pressable
-                      style={[styles.button, styles.buttonClose]}
-                      onPress={e => {
-                        toggleCheckpoint(index);
-                      }}>
-                      <Text style={styles.textStyle}>
-                        {pins[index].isCheckPoint
-                          ? 'unMake Checkpoint'
-                          : 'Make Checkpoint'}
-                      </Text>
-                    </Pressable>
+                <Marker
+                  key={'Marker ' + index}
+                  coordinate={marker}
+                  draggable
+                  onDrag={e => {
+                    dragPin(index, e.nativeEvent.coordinate);
+                  }}
+                  pinColor={marker.isCheckPoint ? 'blue' : 'grey'}>
+                  <Callout style={styles.callout}>
+                    <SafeAreaView style={styles.calloutContainer}>
+                      <View style={styles.colStyle}>
+                        <Pressable
+                          style={[styles.button, styles.buttonClose]}
+                          onPress={e => {
+                            toggleCheckpoint(index);
+                          }}>
+                          <Text style={styles.modalText}>
+                            {marker.isCheckPoint
+                              ? 'unMake Checkpoint'
+                              : 'Make Checkpoint'}
+                          </Text>
+                        </Pressable>
+                        <Pressable
+                          style={[styles.button, styles.buttonClose]}
+                          onPress={e => {
+                            deletePin(index);
+                          }}>
+                          <Text style={styles.modalText}>Delete Pin</Text>
+                        </Pressable>
+                      </View>
+                    </SafeAreaView>
                   </Callout>
                 </Marker>
               );
@@ -188,7 +276,32 @@ const styles = StyleSheet.create({
     height: height * 0.58,
     width: width,
   },
+  callout: {
+    flex: 1,
+    height: height * 0.15,
+    width: height * 0.15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  colStyle: {
+    flexDirection: 'column',
+    width: '100%',
+    height: '100%',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  calloutContainer: {
+    margin: 5,
+    flex: 1,
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
   container: {
+    flex: 1,
     alignSelf: 'center',
     justifyContent: 'center',
   },
@@ -225,12 +338,31 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
+    marginVertical: 2,
+    width: '100%',
   },
   buttonOpen: {
     backgroundColor: '#F194FF',
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: 'teal',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    margin: 2,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  },
+  textFrame: {
+    borderRadius: 13,
+    backgroundColor: '#32cd32',
+    borderWidth: 2,
+    borderColor: 'teal',
+    width: '100%',
   },
   bottomButtons: {
     backgroundColor: 'teal',

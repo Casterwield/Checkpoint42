@@ -14,7 +14,7 @@ import {CoordContext} from './Provider.js';
 let {height, width} = Dimensions.get('window');
 
 const StatBar = (): Node => {
-  const {pins, distance, setDistance, setGoal} = useContext(CoordContext);
+  const {pins, goal, setGoal} = useContext(CoordContext);
   const pinCoords = [...pins];
 
   return (
@@ -24,9 +24,11 @@ const StatBar = (): Node => {
         <TextInput
           style={styles.inputText}
           keyboardType="number-pad"
-          placeholder="(in minutes)"
+          defaultValue={goal === 0 ? null : goal.toString()}
+          placeholder={'(in minutes)'}
           placeholderTextColor="#32cd32"
           maxLength={4}
+          clearTextOnFocus={true}
           onEndEditing={e => {
             setGoal(Number(e.nativeEvent.text));
           }}

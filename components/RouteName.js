@@ -14,11 +14,10 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RouteName = () => {
-  const {modalVisible, setModalVisible, name, setName, pins} =
+  const {modalVisible, setModalVisible, name, setName, pins, goal} =
     useContext(CoordContext);
   const storeData = async (value, iD) => {
     try {
-      console.log(value, iD);
       const jsonValue = JSON.stringify(value);
       const jsoniD = JSON.stringify(iD);
       await AsyncStorage.setItem(jsoniD, jsonValue);
@@ -38,20 +37,22 @@ const RouteName = () => {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <TextInput
-              style={styles.modalText}
-              keyboardType="default"
-              placeholder="(Route Name)"
-              placeholderTextColor="#32cd32"
-              maxLength={16}
-              onChangeText={e => {
-                setName(e);
-              }}
-            />
+            <View style={styles.textFrame}>
+              <TextInput
+                style={styles.modalText}
+                keyboardType="default"
+                placeholder="(Route Name)"
+                placeholderTextColor="white"
+                maxLength={16}
+                onChangeText={e => {
+                  setName(e);
+                }}
+              />
+            </View>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => {
-                storeData(pins, name);
+                storeData([goal, pins], name);
                 setModalVisible(!modalVisible);
               }}>
               <Text style={styles.textStyle}>Save Route</Text>
@@ -77,6 +78,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
+    width: '50%',
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
@@ -94,12 +96,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
+    marginVertical: 2,
   },
   buttonOpen: {
     backgroundColor: '#F194FF',
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: 'teal',
   },
   textStyle: {
     color: 'white',
@@ -107,8 +110,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   modalText: {
-    marginBottom: 15,
+    margin: 5,
     textAlign: 'center',
+    textAlignVertical: 'center',
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
+  textFrame: {
+    margin: 5,
+    borderRadius: 13,
+    backgroundColor: '#32cd32',
+    borderWidth: 2,
+    borderColor: 'teal',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
 });
 

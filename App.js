@@ -17,15 +17,27 @@ const App: () => Node = () => {
     backgroundColor: 'black',
     flex: 1,
   };
-
   return (
     <SafeAreaView style={backgroundStyle}>
       <CoordProvider>
         <StatusBar barStyle="light-content" />
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen name="Home" component={MapScreen} />
-            <Stack.Screen name="Routes" component={Routes} />
+            <Stack.Screen
+              name="Home"
+              options={{headerShown: false}}
+              component={MapScreen}
+            />
+            <Stack.Screen
+              name="Routes"
+              component={Routes}
+              options={{
+                headerStyle: {
+                  backgroundColor: 'teal',
+                },
+                headerTintColor: 'white',
+              }}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </CoordProvider>

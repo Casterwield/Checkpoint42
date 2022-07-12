@@ -69,7 +69,6 @@ const Routes: () => Node = ({navigation}) => {
           </View>
         );
       })}
-      <Button title="Go to Map" onPress={() => navigation.navigate('Home')} />
     </SafeAreaView>
   );
 };

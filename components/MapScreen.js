@@ -4,7 +4,7 @@ Map View screen containing mapbox, input bar, and individual checkpoint view
 
 import React from 'react';
 import Map from './Map';
-import PinDividual from './PinDex.js';
+import PinDex from './PinDex.js';
 import StatBar from './StatBar.js';
 import type {Node} from 'react';
 import {
@@ -43,7 +43,7 @@ const MapScreen: () => Node = ({navigation}) => {
           })
         }>
         <SafeAreaView style={backgroundStyle}>
-          <PinDividual />
+          <PinDex />
         </SafeAreaView>
       </ScrollView>
       {/* </CoordProvider> */}

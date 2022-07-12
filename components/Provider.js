@@ -6,6 +6,8 @@ const CoordContext = React.createContext();
 
 const CoordProvider = props => {
   const [pins, setPins] = useState([]);
+  const [pinProps, setPinProps] = useState([]);
+  const [chkPts, setChkPts] = useState([]);
   const [currReg, setReg] = useState({latitude: 42.8057, longitude: -73.8969});
   const [routes, setRoutes] = useState([]);
   const [goal, setGoal] = useState(0);
@@ -38,6 +40,10 @@ const CoordProvider = props => {
         setName,
         routes,
         setRoutes,
+        pinProps,
+        setPinProps,
+        chkPts,
+        setChkPts,
       }}>
       {props.children}
     </CoordContext.Provider>

@@ -1,60 +1,34 @@
 /* View containing pins, with distance and times added as array is iterated over */
 
-import React, {useContext} from 'react';
-import {getDistance, convertDistance, getPathLength} from 'geolib';
+import React, {useContext, useEffect} from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {CoordContext} from './Provider.js';
-import convertTime from './ConvertTime.js';
 
-const PinDividual = ({title}): Node => {
-  const {pins, goal} = useContext(CoordContext);
-  const pinCoords = [...pins];
+const PinDex = (): Node => {
+  const {chkPts} = useContext(CoordContext);
 
   return (
     <SafeAreaView>
       <View>
-        {pinCoords.map((marker, index, array) => {
+        {chkPts.map((marker, index) => {
           return (
             <SafeAreaView
               key={'Pindivual' + index}
               style={styles.sectionContainer}>
-              {index === 0 ? null : (
-                <Text style={[styles.sectionTitle]}>
-                  {index === 0 ? 'Start' : 'Checkpoint ' + index}
+              <Text style={[styles.sectionTitle]}>
+                {'Checkpoint ' + marker.index}
+              </Text>
+              <View style={styles.rowStyle}>
+                <Text style={[styles.sectionDescription]}>
+                  {marker.dist + 'mi'}
                 </Text>
-              )}
-              {index === 0 ? null : (
-                <View style={styles.rowStyle}>
-                  <Text style={[styles.sectionDescription]}>
-                    {convertDistance(
-                      getDistance(array[index - 1], marker),
-                      'mi',
-                    ).toFixed(2) + 'mi'}
-                  </Text>
-                  <Text style={[styles.sectionDescription]}>
-                    {convertTime(
-                      (
-                        goal *
-                        convertDistance(
-                          getDistance(array[index - 1], marker) /
-                            getPathLength(pinCoords),
-                        )
-                      ).toFixed(2),
-                    ) + ' CheckPoint'}
-                  </Text>
-                  <Text style={[styles.sectionDescription]}>
-                    {convertTime(
-                      (
-                        goal *
-                        convertDistance(
-                          getPathLength(array.slice(0, index + 1)) /
-                            getPathLength(pinCoords),
-                        )
-                      ).toFixed(2),
-                    ) + ' Total'}
-                  </Text>
-                </View>
-              )}
+                <Text style={[styles.sectionDescription]}>
+                  {marker.ptTime + ' CheckPoint'}
+                </Text>
+                <Text style={[styles.sectionDescription]}>
+                  {marker.totalTime + ' Total'}
+                </Text>
+              </View>
             </SafeAreaView>
           );
         })}
@@ -94,4 +68,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PinDividual;
+export default PinDex;

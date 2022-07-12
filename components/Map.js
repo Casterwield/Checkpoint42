@@ -1,7 +1,7 @@
 /* actual map component */
 
-import React, {useContext, useRef, useEffect} from 'react';
-import MapView, {Marker, Polyline} from 'react-native-maps';
+import React, {useContext, useRef, useEffect, useCallback} from 'react';
+import MapView, {Marker, Polyline, Callout} from 'react-native-maps';
 import {
   SafeAreaView,
   StyleSheet,
@@ -9,9 +9,11 @@ import {
   Dimensions,
   Button,
   Text,
+  Pressable,
 } from 'react-native';
 import {CoordContext} from './Provider.js';
 import RouteName from './RouteName.js';
+import pinDataCalc from './PinDataCalc.js';
 import Geolocation from '@react-native-community/geolocation';
 
 let {height, width} = Dimensions.get('window');
@@ -21,11 +23,13 @@ const Map: () => Node = ({navigation}) => {
     setPins,
     setReg,
     pins,
+    goal,
     currReg,
     loc,
     setLoc,
     modalVisible,
     setModalVisible,
+    setChkPts,
   } = useContext(CoordContext);
   const mapRef = useRef(null);
   const lineCoords = [...pins];
@@ -41,17 +45,33 @@ const Map: () => Node = ({navigation}) => {
       setLoc(tempLoc);
     });
     goToHome();
-  }, []);
+  }, [goToHome, setLoc]);
+  useEffect(() => {
+    var chkPtArray;
+    setPins(prevPins => {
+      let tempPins = [...prevPins];
+      chkPtArray = pinDataCalc(tempPins, goal);
+      setChkPts(chkPtArray);
+      return tempPins;
+    });
+  }, [goal, setPins, setChkPts]);
+
   const PinPoint = () => {
+    let newPin = currReg;
+    newPin.isCheckPoint = false;
+    newPin.voiceCall = '';
     setPins(prevPins => {
       prevPins.push(currReg);
       var temPins = [...prevPins];
       return temPins;
     });
   };
-  const goToHome = e => {
-    mapRef.current.animateToRegion(loc, 1000);
-  };
+  const goToHome = useCallback(
+    e => {
+      mapRef.current.animateToRegion(loc, 1000);
+    },
+    [mapRef, loc],
+  );
   const ClearPins = () => {
     setPins([]);
   };
@@ -60,6 +80,18 @@ const Map: () => Node = ({navigation}) => {
   };
   const mapReady = () => {
     goToHome();
+  };
+  const toggleCheckpoint = pointDex => {
+    var chkPtArray;
+    setPins(prevPins => {
+      let tempPin = {...prevPins[pointDex]};
+      let tempPins = [...prevPins];
+      tempPin.isCheckPoint = !prevPins[pointDex].isCheckPoint;
+      tempPins[pointDex] = tempPin;
+      chkPtArray = pinDataCalc(tempPins, goal);
+      setChkPts(chkPtArray);
+      return tempPins;
+    });
   };
 
   return (
@@ -79,15 +111,33 @@ const Map: () => Node = ({navigation}) => {
           }}
           initialRegion={loc}>
           {pins.map((marker, index) => {
-            return (
-              <Marker
-                key={'Marker ' + index}
-                coordinate={marker}
-                title={'Marker ' + index}
-                isCheckPoint={false}
-                onPress={e => console.log(e.nativeEvent)}
-              />
-            );
+            if (index === 0) {
+              return (
+                <Marker key={'Marker ' + index} coordinate={marker}>
+                  <Callout>
+                    <Text>StartPoint</Text>
+                  </Callout>
+                </Marker>
+              );
+            } else {
+              return (
+                <Marker key={'Marker ' + index} coordinate={marker}>
+                  <Callout>
+                    <Pressable
+                      style={[styles.button, styles.buttonClose]}
+                      onPress={e => {
+                        toggleCheckpoint(index);
+                      }}>
+                      <Text style={styles.textStyle}>
+                        {pins[index].isCheckPoint
+                          ? 'unMake Checkpoint'
+                          : 'Make Checkpoint'}
+                      </Text>
+                    </Pressable>
+                  </Callout>
+                </Marker>
+              );
+            }
           })}
           <Polyline
             coordinates={lineCoords}
@@ -170,6 +220,17 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 28,
     opacity: 0.85,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
   },
   bottomButtons: {
     backgroundColor: 'teal',
